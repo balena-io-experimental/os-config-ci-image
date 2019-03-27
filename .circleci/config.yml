@@ -4,15 +4,17 @@ jobs:
     docker:
       - image: circleci/python:3.7.2-stretch
 
+        environment:
+          RUST_VERSION: 1.31.0
+
     steps:
       - checkout
 
       - setup_remote_docker
 
       - run:
-          name: Greeting
-          command: echo Hello, world.
-
-      - run:
-          name: Print the Current Time
-          command: date
+          name: Build image
+          command: >-
+            docker build
+            --build-arg RUST_VERSION=$RUST_VERSION
+            --tag=os-config-ci .
